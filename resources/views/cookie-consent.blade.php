@@ -6,6 +6,7 @@
     $locale = $locale ?? App::getLocale();
     $siteId = $siteId ?? Config::get("iubenda.site_id");
     $policyId = $policyId ?? Config::get("iubenda.privacy_policy.$locale.id");
+    $bannerOptions = $bannerOptions ?? Config::get("iubenda.cookie_policy.banner_options");
 @endphp
 @if ($enabled)
     <script type="text/javascript">
@@ -16,19 +17,7 @@
             "siteId": {{ $siteId }},
             "perPurposeConsent":true,
             "cookiePolicyId": {{ $policyId }},
-            "banner": {
-                "acceptButtonDisplay":true,
-                "customizeButtonDisplay":true,
-                "position":"bottom",
-                "acceptButtonColor":"#0073CE",
-                "acceptButtonCaptionColor":"white",
-                "customizeButtonColor":"#DADADA",
-                "customizeButtonCaptionColor":"#4D4D4D",
-                "rejectButtonColor":"#0073CE",
-                "rejectButtonCaptionColor":"white",
-                "textColor":"black",
-                "backgroundColor":"white"
-            }
+            "banner": {!! json_encode($bannerOptions) !!}
         };
     </script>
     <script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async></script>
