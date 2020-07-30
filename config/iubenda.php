@@ -37,4 +37,8 @@ return [
             "backgroundColor" => "white",
         ],
     ],
+
+    'consent_solution' => [
+        'api_key' => env('IUBENDA_CONSENT_SOLUTION_API_KEY'),
+    ],
 ];
