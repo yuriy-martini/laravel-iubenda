@@ -4,6 +4,7 @@ namespace SoluzioneSoftware\Iubenda\Requests\Subjects;
 
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use SoluzioneSoftware\Iubenda\Responses\SubjectsUpdateResponse;
 
 class UpdateRequest extends AbstractRequest
@@ -66,13 +67,18 @@ class UpdateRequest extends AbstractRequest
         return $this->withBody('verified', $value);
     }
 
+    protected function getUrl(string $path = '/'): string
+    {
+        return parent::getUrl("/{$this->id}");
+    }
+
     /**
-     * @param  array  $attrs
      * @return SubjectsUpdateResponse
      * @throws Exception
+     * @throws GuzzleException
      */
-    public function execute(array $attrs): SubjectsUpdateResponse
+    public function execute(): SubjectsUpdateResponse
     {
-        throw new Exception('Not implemented');
+        return SubjectsUpdateResponse::create(json_decode($this->executePost()->getBody(), true));
     }
 }

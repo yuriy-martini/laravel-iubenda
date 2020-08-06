@@ -5,15 +5,24 @@ namespace SoluzioneSoftware\Iubenda\Requests;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\RequestOptions;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class AbstractRequest
 {
     const BASE_URL = 'https://consent.iubenda.com';
+
     /**
      * @var Client
      */
     protected $client;
+
+    /**
+     * @var array
+     */
+    protected $body = [];
 
     public function __construct(Client $client)
     {
@@ -32,12 +41,25 @@ abstract class AbstractRequest
      */
     protected function withBody(string $key, $value): self
     {
-        throw new Exception('Not implemented');
+        Arr::set($this->body, $key, $value);
+        return $this;
     }
 
-    protected function getUrl(string $path = '/')
+    protected function getUrl(string $path = '/'): string
     {
         return static::BASE_URL . $path;
+    }
+
+    protected function getHeaders(): array
+    {
+        return [
+            'ApiKey' => Config::get('iubenda.consent_solution.api_key'),
+        ];
+    }
+
+    protected function getBody(): array
+    {
+        return $this->body;
     }
 
     /**
@@ -45,7 +67,7 @@ abstract class AbstractRequest
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    protected function get(string $url)
+    protected function get(string $url): ResponseInterface
     {
         return $this->client->get($url);
     }
@@ -55,9 +77,12 @@ abstract class AbstractRequest
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    protected function post(string $url)
+    protected function post(string $url): ResponseInterface
     {
-        return $this->client->post($url);
+        return $this->client->post($url, [
+            'headers' => $this->getHeaders(),
+            RequestOptions::JSON => $this->getBody(),
+        ]);
     }
 
     /**
@@ -65,8 +90,17 @@ abstract class AbstractRequest
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    protected function put(string $url)
+    protected function put(string $url): ResponseInterface
     {
         return $this->client->put($url);
+    }
+
+    /**
+     * @return ResponseInterface
+     * @throws GuzzleException
+     */
+    protected function executePost(): ResponseInterface
+    {
+        return $this->post($this->getUrl());
     }
 }

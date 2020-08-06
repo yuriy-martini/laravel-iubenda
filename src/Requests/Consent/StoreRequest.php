@@ -10,6 +10,16 @@ use SoluzioneSoftware\Iubenda\Responses\ConsentStoreResponse;
 class StoreRequest extends AbstractRequest
 {
     /**
+     * @var array
+     */
+    protected $legalNotices = [];
+
+    /**
+     * @var array
+     */
+    protected $proofs = [];
+
+    /**
      * ISO 8601 timestamp at which the consent occurred<br>
      * auto-filled if not provided
      *
@@ -18,7 +28,7 @@ class StoreRequest extends AbstractRequest
      */
     public function timestamp(Carbon $value): self
     {
-        throw new Exception('Not implemented');
+        return $this->withBody('timestamp', $value->toIso8601ZuluString());
     }
 
     /**
@@ -29,7 +39,7 @@ class StoreRequest extends AbstractRequest
      */
     public function subjectId(string $value): self
     {
-        throw new Exception('Not implemented');
+        return $this->withBody('subject.id', $value);
     }
 
     /**
@@ -38,7 +48,7 @@ class StoreRequest extends AbstractRequest
      */
     public function subjectEmail(string $value): self
     {
-        throw new Exception('Not implemented');
+        return $this->withBody('subject.email', $value);
     }
 
     /**
@@ -47,7 +57,7 @@ class StoreRequest extends AbstractRequest
      */
     public function subjectFirstName(string $value): self
     {
-        throw new Exception('Not implemented');
+        return $this->withBody('subject.first_name', $value);
     }
 
     /**
@@ -56,7 +66,7 @@ class StoreRequest extends AbstractRequest
      */
     public function subjectLastName(string $value): self
     {
-        throw new Exception('Not implemented');
+        return $this->withBody('subject.last_name', $value);
     }
 
     /**
@@ -65,7 +75,7 @@ class StoreRequest extends AbstractRequest
      */
     public function subjectFullName(string $value): self
     {
-        throw new Exception('Not implemented');
+        return $this->withBody('subject.full_name', $value);
     }
 
     /**
@@ -76,7 +86,7 @@ class StoreRequest extends AbstractRequest
      */
     public function subjectVerified(bool $value): self
     {
-        throw new Exception('Not implemented');
+        return $this->withBody('subject.verified', $value);
     }
 
     /**
@@ -86,7 +96,8 @@ class StoreRequest extends AbstractRequest
      */
     public function legalNotice(string $identifier, string $version = null): self
     {
-        throw new Exception('Not implemented');
+        $this->legalNotices[] = ['identifier' => $identifier, 'version' => $version];
+        return $this;
     }
 
     /**
@@ -96,7 +107,8 @@ class StoreRequest extends AbstractRequest
      */
     public function proof(string $content, string $form): self
     {
-        throw new Exception('Not implemented');
+        $this->proofs[] = ['content' => $content, 'form' => $form];
+        return $this;
     }
 
     /**
@@ -108,7 +120,7 @@ class StoreRequest extends AbstractRequest
      */
     public function preference(string $key, string $value): self
     {
-        throw new Exception('Not implemented');
+        return $this->withBody("preferences.$key", $value);
     }
 
     /**
@@ -120,7 +132,15 @@ class StoreRequest extends AbstractRequest
      */
     public function ipAddress(string $value): self
     {
-        throw new Exception('Not implemented');
+        return $this->withBody('ip_address', $value);
+    }
+
+    protected function getBody(): array
+    {
+        return array_merge(parent::getBody(), [
+            'legal_notices' => $this->legalNotices,
+            'proofs' => $this->proofs,
+        ]);
     }
 
     /**
@@ -130,8 +150,6 @@ class StoreRequest extends AbstractRequest
      */
     public function execute(): ConsentStoreResponse
     {
-        $response = $this->post($this->getUrl());
-
-        return ConsentStoreResponse::create(json_decode($response->getBody()));
+        return ConsentStoreResponse::create(json_decode($this->executePost()->getBody(), true));
     }
 }
