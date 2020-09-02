@@ -2,7 +2,7 @@
     use Illuminate\Support\Facades\App;
     use Illuminate\Support\Facades\Config;
 
-    $enabled = $enabled ?? (Config::get("iubenda.cookie_consent.enabled") && Config::get("iubenda.enabled"));
+    $enabled = $enabled ?? Config::get("iubenda.enabled");
     $locale = $locale ?? App::getLocale();
     $siteId = $siteId ?? Config::get("iubenda.site_id");
     $policyId = $policyId ?? Config::get("iubenda.privacy_policy.$locale.id");
