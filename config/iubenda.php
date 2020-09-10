@@ -8,7 +8,7 @@ return [
     'privacy_policy' => [
         'en' => [
             'id' => env('IUBENDA_PRIVACY_POLICY_ID'),
-            'title' => env('IUBENDA_PRIVACY_POLICY_TITLE', 'Privacy Policy'),
+            'title' => 'Privacy Policy',
         ],
     ],
 
@@ -16,7 +16,7 @@ return [
         'enabled' => env('IUBENDA_COOKIE_POLICY_ENABLED', true),
 
         'en' => [
-            'title' => env('IUBENDA_COOKIE_POLICY_TITLE', 'Cookie Policy'),
+            'title' => 'Cookie Policy',
         ],
 
         'banner_options' => [
