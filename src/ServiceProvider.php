@@ -2,7 +2,6 @@
 
 namespace SoluzioneSoftware\Iubenda;
 
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
@@ -50,13 +49,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        $this->registerManager();
-    }
-
-    private function registerManager()
-    {
-        $this->app->singleton('open_graph.manager', function () {
-            return new Manager(new Client());
-        });
+        //
     }
 }
