@@ -8,16 +8,11 @@ return [
     'privacy_policy' => [
         'en' => [
             'id' => env('IUBENDA_PRIVACY_POLICY_ID'),
-            'title' => 'Privacy Policy',
         ],
     ],
 
     'cookie_policy' => [
         'enabled' => env('IUBENDA_COOKIE_POLICY_ENABLED', true),
-
-        'en' => [
-            'title' => 'Cookie Policy',
-        ],
 
         'banner_options' => [
             "acceptButtonDisplay" => true,

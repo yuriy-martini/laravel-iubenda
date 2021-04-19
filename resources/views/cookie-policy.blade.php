@@ -1,10 +1,7 @@
 @php
-    use Illuminate\Support\Facades\App;
-    use Illuminate\Support\Facades\Config;
-
-    $enabled = $enabled ?? Config::get("iubenda.enabled");
-    $locale = $locale ?? App::getLocale();
-    $title = $title ?? Config::get("iubenda.cookie_policy.$locale.title");
+    $enabled = $enabled ?? Illuminate\Support\Facades\Config::get("iubenda.enabled");
+    $locale = $locale ?? Illuminate\Support\Facades\App::getLocale();
+    $title = $title ?? Illuminate\Support\Facades\Lang::get('iubenda::views.cookie_policy.title')
 @endphp
 
 @extends('iubenda::policy', [
