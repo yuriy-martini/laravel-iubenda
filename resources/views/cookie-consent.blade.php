@@ -17,6 +17,7 @@
             "siteId": {{ $siteId }},
             "perPurposeConsent":true,
             "cookiePolicyId": {{ $policyId }},
+            "consentOnContinuedBrowsing":false,
             "banner": {!! json_encode($bannerOptions) !!}
         };
     </script>
