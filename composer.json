@@ -8,14 +8,20 @@
             "email": "y.martini@soluzionesoftware.com",
             "homepage": "https://github.com/yuriy-martini",
             "role": "Developer"
+        },
+        {
+            "name": "Alberto Giancarlo Ferrario",
+            "email": "me@albertogferrario.com",
+            "homepage": "https://github.com/albertogferrario",
+            "role": "Developer"
         }
     ],
     "require": {
-        "php": "^7.0",
+        "php": "^7.0|^8.0",
         "ext-json": "*",
         "guzzlehttp/guzzle": "^6.5|^7.0",
-        "illuminate/support": "^5.8|^6.0|^7.0|^8.0",
-        "illuminate/translation": "^5.8|^6.0|^7.0|^8.0"
+        "illuminate/support": "^5.8|^6.0|^7.0|^8.0|^9.0",
+        "illuminate/translation": "^5.8|^6.0|^7.0|^8.0|^9.0"
     },
     "autoload": {
         "psr-4": {
