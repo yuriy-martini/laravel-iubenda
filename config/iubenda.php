@@ -5,6 +5,12 @@ return [
 
     'site_id' => env('IUBENDA_SITE_ID'),
 
+    'terms_and_conditions' => [
+        'en' => [
+            'id' => env('IUBENDA_TERMS_AND_CONDITIONS_ID'),
+        ],
+    ],
+
     'privacy_policy' => [
         'en' => [
             'id' => env('IUBENDA_PRIVACY_POLICY_ID'),
